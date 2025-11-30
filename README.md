@@ -1,103 +1,240 @@
-Veritas Engine
+# Veritas Engine  
+**Unified System Architecture – Consolidated Edition v1.0**
 
-Unified System Architecture Specification — Consolidated Edition v1.0
+Veritas Engine is a unified, self-optimizing computational system designed to transform **ambiguous human intent** into **optimized, verifiable, multi-agent executable action**.
 
-Veritas Engine is a unified, self‑optimizing computational system designed to transform ambiguous human intent into optimized, verifiable, multi‑agent executable action.
+It is both a *toolchain* and a *governance system*, built to evolve itself through structured feedback and versioned refinement.
 
 ---
 
-🚀 What is Veritas?
+## 🚀 What Is Veritas?
 
-Veritas interprets human instructions, extracts requirements, generates optimized prompts, orchestrates execution across agents, evaluates results, and evolves itself over time.
+Veritas takes a raw instruction and runs it through a governed pipeline:
 
-Pipeline:
 intent → specification → plan → execution → evaluation → evolution
 
----
+This yields:
 
-📌 Two Layers
-
-1. MVP Veritas (2–3 Week Build)
-
-A lean, auditable pipeline you can run today:
-
-• Demand List Engine (classifier, schema, prompt optimizer)
-• Schema & Template Registry (SQLite + SQLAlchemy)
-• Planner (executor profiles, environment scan, least‑resistance routing)
-• Multi‑Agent Orchestrator (GPT + Local runtime only)
-• Auto‑Improver v1 (simple scoring + refinements)
-• Project Registry (execution logs)
-• FastAPI API layer
-• Audit logging (immutable JSON packets)
-• Simulation & testing harness
-
-
-2. Full Veritas Engine v1.0 (Roadmap)
-
-The long‑term architecture:
-
-• Multi‑agent orchestration (GPT, Gemini, Claude, Codex, Local)
-• Dynamic environment scanning + capability routing
-• Advanced Auto‑Improver (schema mutation, template evolution rules)
-• Project Lifecycle Manager
-• Asynchronous evaluation queue
-• Rollback + concurrency enforcement
-• Optional UI + executor plugin system
-
+- Structured requirements (Demand List)
+- An optimized prompt
+- An execution plan routed to the most capable executor
+- A synthesized final output
+- Audit logs for every decision  
+- Automated improvements to schemas and templates
 
 ---
 
-🧩 Repository Structure
+# 📌 Two Layers of the System
+
+---
+
+## 1. MVP Veritas (2–3 Week Build)
+
+A lean, auditable, fully functional pipeline:
+
+### ✅ Demand List Engine
+- Classifier (regex/heuristics)
+- Schema lookup
+- Demand list generation
+- Prompt optimization
+
+### ✅ Schema & Template Registry
+- SQLite + SQLAlchemy ORM
+- Versioned entries
+- Optimistic concurrency
+- Hot-reloadable caches
+
+### ✅ Planner
+- Executor profiles (GPT + Local runtime)
+- Environment scanning
+- Least-resistance routing logic
+
+### ✅ Orchestrator (MVP)
+- Break tasks into subtasks
+- Route each subtask to GPT or Local runtime
+- Synthesize final output
+
+### ✅ Auto-Improver v1
+- Prompt/output scoring
+- Schema/template refinement
+- Versioned updates
+
+### ✅ Project Registry
+- Execution logs
+- Version history
+- Reproducibility
+
+### ✅ API Layer (FastAPI)
+- `/classify`
+- `/demand-list`
+- `/optimize`
+- `/execute_plan`
+
+### ✅ Audit Logging
+- Immutable JSON packets  
+- Stored in SQLite
+- Linked via `run_id`
+
+### ✅ Simulation & Tests
+- End-to-end demo runner  
+- Unit + integration tests  
+
+---
+
+## 2. Full Veritas Engine v1.0 (Roadmap)
+
+Long-term architecture goals:
+
+### 🌐 Multi-Agent Orchestration
+- GPT (reasoning/planning)
+- Gemini (diagrams, multimodal)
+- Claude (synthesis)
+- Codex (code-running)
+- Local runtimes
+- Plugin system for adding new agents
+
+### 🧠 Advanced Auto-Improver
+- Schema mutation patterns  
+- Template evolution rules  
+- Multi-signal scoring  
+- Automated consistency checks  
+
+### 🧩 Capability Routing
+- Full OS/runtime analysis  
+- Repository structure detection  
+- Cost-aware path selection  
+
+### 🔄 Project Lifecycle Manager
+- Multi-step project tracking  
+- Failure/retry history  
+- Persistent, versioned project memory  
+
+### ⚙️ Async Queue System
+- Background auto-improver workers  
+- Celery/Redis/Kafka support  
+- Non-blocking evaluation  
+
+### 🖥️ UI + Developer Tools
+- Visual pipeline viewer  
+- JSON audit inspector  
+- Live schema/template editor  
+
+---
+
+# 🧩 Repository Structure
 
 veritas-engine/
-  engine/              # Classifier, demand engine, validator
-  registry/            # Schema & template registries
-  models/              # ORM models
-  planner/             # Executor profiles, environment scanner, planner
-  orchestrator/        # Task analyzer, multi-agent coordinator, synthesis
-  improver/            # Feedback model, auto-improver
-  projects/            # Project registry + models
-  api/                 # FastAPI server + routes
-  simulation/          # End-to-end demo runner
-  tests/               # Unit + integration tests
-  logger.py            # Audit logging
-  veritas.txt          # Architecture specification
-  README.md            # This file
+engine/
+classifier.py
+demand_engine.py
+demand_list.py
+validator.py
 
+registry/
+schema_registry.py
+prompt_registry.py
+
+models/
+schema_orm.py
+template_orm.py
+
+planner/
+executor_profile.py
+environment_scanner.py
+least_resistance.py
+capability_router.py
+
+orchestrator/
+task_analyzer.py
+multi_agent_coordinator.py
+synthesis_engine.py
+
+improver/
+feedback_model.py
+auto_improver.py
+
+projects/
+project_model.py
+project_registry.py
+
+api/
+server.py
+routes_public.py
+routes_admin.py
+routes_internal.py
+
+simulation/
+simulate_end_to_end.py
+
+tests/
+test_classifier.py
+test_schema_registry.py
+test_prompt_registry.py
+test_demand_engine.py
+test_planner.py
+test_improver.py
+
+logger.py
+veritas.txt
+README.md
+requirements.txt
 
 ---
 
-🧪 Running the MVP Demo
+# 🧪 Running the MVP Demo
 
-1. Install dependencies:pip install -r requirements.txt
+### 1. Install dependencies
+```bash
+pip install -r requirements.txt
 
-2. Run the simulation:python simulation/simulate_end_to_end.py
+2. Run the simulation
 
-3. Observe the audit trail printed step‑by‑step:• Classifier decision
-• Schema + template version
-• Optimized prompt
-• Planner path
-• Orchestrator execution
-• Evaluation + Auto‑Improver actions
+python simulation/simulate_end_to_end.py
 
+3. View the audit trail
 
+You’ll see each subsystem log an audit packet:
+   •   Classifier decision
+   •   Schema version and fields
+   •   Optimized prompt
+   •   Planner path
+   •   Orchestrator steps
+   •   Evaluation metrics
+   •   Auto-Improver actions
 
----
+This proves the entire pipeline end-to-end.
+
+⸻
 
 🔑 Design Principles
 
-• Auditability first → every decision logged as JSON packets.
-• Version control → schemas/templates evolve but remain rollback‑able.
-• Minimal viable path → MVP uses GPT + Local runtime only.
-• Evolution‑ready → Auto‑Improver refines templates/schemas based on usage.
+📍 Audit First
 
+Every subsystem logs an immutable JSON packet — no hidden reasoning.
 
----
+📍 Version Everything
 
-📈 Roadmap
+Schemas, templates, project histories — all evolvable, all reversible.
 
-• Expand executor profiles (Gemini, Claude, Codex).
-• Add async evaluation queue (Celery/Redis).
-• Implement advanced Auto‑Improver with schema mutation patterns.
-• Build Project Lifecycle Manager for multi‑step projects.
-• Optional UI layer for visualization and control.
+📍 Minimal Viable Agents
+
+MVP uses GPT + Local runtime only; roadmap expands capabilities.
+
+📍 Evolution-Ready
+
+Auto-Improver drives continuous system improvement.
+
+⸻
+
+📈 Roadmap Highlights
+   •   Multi-agent expansion
+   •   Async evaluation queue
+   •   Advanced mutation logic
+   •   Project lifecycle management
+   •   Full UI layer
+   •   Plugin architecture for new executors
+
+⸻
+
+Veritas is built to grow:
+MVP → Full Engine → Multi-Agent Orchestrator → Continuous Evolution.
