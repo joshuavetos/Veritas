@@ -1,0 +1,262 @@
+VERITAS ENGINE  
+Unified System Architecture Specification  
+Consolidated Edition  
+Version 1.0  
+
+======================================================================
+I. INTRODUCTION
+======================================================================
+
+The Veritas Engine is a unified, self-optimizing computational system
+designed to interpret human intent, extract requirements, generate
+optimized prompts, orchestrate multi-agent execution, evaluate results,
+and evolve itself over time.
+
+This document defines two layers:
+
+A) MVP Veritas — a minimal, auditable system implementable in 2–3 weeks.  
+B) Full Veritas Engine v1.0 — the long-term architecture.
+
+Veritas transforms ambiguous human intention into optimized, verifiable,
+multi-agent executable action:
+
+intent → specification → plan → execution → evaluation → evolution
+
+
+======================================================================
+II. MVP VERITAS (2–3 WEEK BUILD)
+======================================================================
+
+Scope: A functioning, end-to-end pipeline that proves the architecture,
+executes real tasks, logs every decision, and supports self-improvement.
+
+----------------------------------------------------------------------
+A. DEMAND LIST ENGINE (DLE)
+----------------------------------------------------------------------
+FILES:
+  engine/classifier.py  
+  engine/demand_engine.py  
+  engine/demand_list.py  
+  engine/validator.py  
+
+FUNCTIONS:
+1. Classify user input into a category/subtype using regex + heuristics.  
+2. Retrieve schema fields for that subtype.  
+3. Generate a structured demand list for the user.  
+4. Normalize and validate user responses.  
+5. Build an optimized prompt using the template registry.
+
+----------------------------------------------------------------------
+B. SCHEMA & TEMPLATE REGISTRY
+----------------------------------------------------------------------
+FILES:
+  registry/schema_registry.py  
+  registry/prompt_registry.py  
+  models/schema_orm.py  
+  models/template_orm.py  
+
+FUNCTIONS:
+- Persistent versioned storage (SQLite + SQLAlchemy).  
+- Optimistic locking for concurrency safety.  
+- Hot-reloadable in-memory cache.  
+- Templates use placeholders ({original_input}, {specs}, etc.).
+
+----------------------------------------------------------------------
+C. EXECUTOR PROFILES & PLANNER (MVP)
+----------------------------------------------------------------------
+FILES:
+  planner/executor_profile.py  
+  planner/environment_scanner.py  
+  planner/least_resistance.py  
+
+FUNCTIONS:
+- Define executor capabilities (GPT + Local runtime only).  
+- Detect Python runtime, installed packages, environment.  
+- Compute “path of least resistance” execution strategy.  
+- Choose GPT for reasoning or Local for runnable code.
+
+----------------------------------------------------------------------
+D. MULTI-AGENT ORCHESTRATOR (MVP)
+----------------------------------------------------------------------
+FILES:
+  orchestrator/task_analyzer.py  
+  orchestrator/multi_agent_coordinator.py  
+  orchestrator/synthesis_engine.py  
+
+FUNCTIONS:
+- Break tasks into atomic subtasks.  
+- Route subtasks to GPT or Local runtime.  
+- Collect partial outputs.  
+- Synthesize final results.
+
+----------------------------------------------------------------------
+E. AUTO-IMPROVER v1
+----------------------------------------------------------------------
+FILES:
+  improver/feedback_model.py  
+  improver/auto_improver.py  
+
+FUNCTIONS:
+- Score prompt quality, output quality, schema completeness.  
+- Suggest schema/template refinements.  
+- Create new versions through the registries.  
+- Supports rollback through admin endpoints.
+
+----------------------------------------------------------------------
+F. PROJECT REGISTRY (MVP)
+----------------------------------------------------------------------
+FILES:
+  projects/project_model.py  
+  projects/project_registry.py  
+
+FUNCTIONS:
+- Log every execution run.  
+- Store schema versions, template versions, planner path, executor choice.  
+- Provide reproducibility for past results.
+
+----------------------------------------------------------------------
+G. API LAYER
+----------------------------------------------------------------------
+FILES:
+  api/server.py  
+  api/routes_public.py  
+  api/routes_admin.py  
+  api/routes_internal.py  
+
+PUBLIC ENDPOINTS:
+  /classify  
+  /demand-list  
+  /optimize  
+  /execute_plan  
+
+ADMIN ENDPOINTS:
+  /schemas/update  
+  /templates/update  
+  /rollback  
+
+INTERNAL ENDPOINTS:
+  /reload  
+  /feedback  
+  /evaluate  
+
+----------------------------------------------------------------------
+H. AUDIT LOGGING
+----------------------------------------------------------------------
+FILES:
+  logger.py  
+
+FUNCTIONS:
+- Write immutable JSON audit packets to SQLite.  
+- Structure includes run_id, timestamp, component, payload.  
+- One run_id chains all subsystem events for a single request.  
+- Enables full-trace execution replay.
+
+----------------------------------------------------------------------
+I. SIMULATION & TESTING
+----------------------------------------------------------------------
+FILES:
+  simulation/simulate_end_to_end.py  
+  tests/test_*.py  
+
+FUNCTIONS:
+- End-to-end scenario runner for debugging the entire pipeline.  
+- Unit tests for classifier, registries, engine, planner, improver.  
+- Ensures predictable, stable MVP behavior.
+
+
+======================================================================
+III. FULL VERITAS ENGINE v1.0 (ROADMAP)
+======================================================================
+
+Scope: Fully expanded architecture supporting multiple agents, advanced
+planning, template evolution, async evaluation, and project lifecycle.
+
+----------------------------------------------------------------------
+A. DEMAND LIST ENGINE (Extended)
+- ML-based classifier improvements.  
+- Schema mutation patterns.  
+- Dynamic constraint-aware field generation.  
+
+----------------------------------------------------------------------
+B. SCHEMA & TEMPLATE REGISTRY (Extended)
+- Postgres + JSONB backend.  
+- Automated drift detection.  
+- Full rollback / forward-migration tooling.  
+
+----------------------------------------------------------------------
+C. EXECUTOR PROFILES (Extended)
+- GPT: reasoning, transformation, planning.  
+- Gemini: diagrams, multimodal analysis, UI generation.  
+- Claude: synthesis, long-context summarization.  
+- Codex: runnable code execution + debugging.  
+- Local runtime: Python/Node execution.  
+- Plugin system for future executors.
+
+----------------------------------------------------------------------
+D. ENVIRONMENT SCANNER (Extended)
+- OS detection, GPU/CPU profiling.  
+- Fine-grained capability maps.  
+- Repository/static analysis integration.  
+
+----------------------------------------------------------------------
+E. LEAST-RESISTANCE PLANNER (Extended)
+- Dynamic cost-aware routing across agents.  
+- Historical path reuse for speed and reliability.  
+- Constraint-aware planning with fallback strategies.  
+
+----------------------------------------------------------------------
+F. MULTI-AGENT ORCHESTRATOR (Extended)
+- Multi-agent parallel execution.  
+- State-aware routing and conflict resolution.  
+- Large artifact synthesis (codebases, documents, diagrams).  
+
+----------------------------------------------------------------------
+G. AUTO-IMPROVER (Extended)
+- Schema evolution rules.  
+- Template mutation patterns.  
+- Auto-patching for missing fields.  
+- Reinforcement via evaluation data.
+
+----------------------------------------------------------------------
+H. PROJECT LIFECYCLE MANAGER
+- Tracks multi-step projects across sessions.  
+- Versioned memory of progress, failures, retries.  
+- Cross-agent project state management.  
+
+----------------------------------------------------------------------
+I. ASYNC QUEUE MODEL
+- Celery/Redis/Kafka worker model for non-blocking evolution.  
+- Evaluation happens asynchronously.  
+- Safe concurrency + rollback tools.
+
+----------------------------------------------------------------------
+J. API LAYER (Extended)
+- Full routing for public/admin/internal endpoints.  
+- Agent-specific execution endpoints.  
+- Optional web UI.  
+
+----------------------------------------------------------------------
+K. TESTING & SIMULATION (Extended)
+- Agent simulation harness.  
+- Advanced mocks for planner/orchestrator.  
+- Full-flow reproducibility tests.
+
+
+======================================================================
+IV. SUMMARY
+======================================================================
+
+**MVP Veritas** delivers a complete, functioning, auditable pipeline built
+from modular components: classifier, schema registry, template registry,
+planner, orchestrator, auto-improver, and API.
+
+**Full Veritas Engine v1.0** extends the architecture into a distributed,
+multi-agent system capable of dynamic planning, self-evolution, rollback,
+and long-term project execution.
+
+Veritas is designed to grow continuously:
+build MVP → evolve into Full Veritas → expand into multi-agent orchestration.
+
+======================================================================
+END OF FILE
+======================================================================
